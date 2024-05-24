@@ -4,7 +4,7 @@ builder.Services.AddHealthChecks();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IApiClient, BreweryApiClient>();
+builder.Services.AddSingleton<IBreweryRepository, BreweryRepository>();
 builder.Services.AddSingleton<IBreweryService, BreweryService>();
 
 var app = builder.Build();
@@ -94,42 +94,42 @@ class Brewery
 
 class BreweryService : IBreweryService
 {
-    private IApiClient _breweryClient;
-    public BreweryService(IApiClient breweryClient)
+    private readonly IBreweryRepository _breweryRepository;
+    public BreweryService(IBreweryRepository breweryRepository)
     {
-        _breweryClient = breweryClient;
+        _breweryRepository = breweryRepository;
     }
     public IEnumerable<Brewery> GetAllBreweries()
     {
-        return _breweryClient.GetAllBreweries();
+        return _breweryRepository.GetAllBreweries();
     }
 
-    public Brewery  GetBreweryById(Guid breweryId)
+    public Brewery GetBreweryById(Guid breweryId)
     {
-        return _breweryClient.GetBreweryById(breweryId);
+        return _breweryRepository.GetBreweryById(breweryId);
     }
 
-    public Brewery  CreateBrewery(Brewery brewery)
+    public Brewery CreateBrewery(Brewery brewery)
     {
-        return _breweryClient.CreateBrewery(brewery);
+        return _breweryRepository.CreateBrewery(brewery);
     }
 
     public Brewery UpdateBrewery(Guid id, Brewery brewery)
     {
-        return _breweryClient.UpdateBrewery(id, brewery);
+        return _breweryRepository.UpdateBrewery(id, brewery);
     }
 
     public IEnumerable<Brewery> DeleteBrewery(Guid id)
     {
-        return _breweryClient.DeleteBrewery(id);
+        return _breweryRepository.DeleteBrewery(id);
     }
 }
 
-class BreweryApiClient : IApiClient
+class BreweryRepository : IBreweryRepository
 {
     private List<Brewery> _breweries;
 
-    public BreweryApiClient()
+    public BreweryRepository()
     {
         _breweries = new List<Brewery>
         {
@@ -184,7 +184,7 @@ class BreweryApiClient : IApiClient
     }
 }
 
-interface IApiClient
+interface IBreweryRepository
 {
     IEnumerable<Brewery> GetAllBreweries();
     Brewery GetBreweryById(Guid id);
