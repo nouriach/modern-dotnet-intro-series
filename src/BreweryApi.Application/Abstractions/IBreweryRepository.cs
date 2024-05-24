@@ -2,7 +2,7 @@ using BreweryApi.Domain.Models;
 
 namespace BreweryApi.Application.Abstractions;
 
-public interface IApiClient
+public interface IBreweryRepository
 {
     IEnumerable<Brewery> GetAllBreweries();
     Brewery GetBreweryById(Guid id);

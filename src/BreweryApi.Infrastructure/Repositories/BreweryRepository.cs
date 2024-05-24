@@ -1,13 +1,13 @@
 using BreweryApi.Application.Abstractions;
 using BreweryApi.Domain.Models;
 
-namespace BreweryApi.Infrastructure.Clients;
+namespace BreweryApi.Infrastructure.Repositories;
 
-public class BreweryApiClient : IApiClient
+public class BreweryRepository : IBreweryRepository
 {
     private List<Brewery> _breweries;
 
-    public BreweryApiClient()
+    public BreweryRepository()
     {
         _breweries = new List<Brewery>
         {
