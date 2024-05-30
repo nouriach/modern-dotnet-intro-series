@@ -4,8 +4,8 @@ builder.Services.AddHealthChecks();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IBreweryRepository, BreweryRepository>();
-builder.Services.AddSingleton<IBreweryService, BreweryService>();
+builder.Services.AddScoped<IBreweryRepository, BreweryRepository>();
+builder.Services.AddScoped<IBreweryService, BreweryService>();
 
 var app = builder.Build();
 
