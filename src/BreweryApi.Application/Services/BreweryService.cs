@@ -1,4 +1,5 @@
 using BreweryApi.Application.Abstractions;
+using BreweryApi.Domain.Entities;
 using BreweryApi.Domain.Models;
 
 namespace BreweryApi.Application.Services;
@@ -10,28 +11,58 @@ public class BreweryService : IBreweryService
     {
         _breweryRepository = breweryRepository;
     }
-    public IEnumerable<Brewery> GetAllBreweries()
+    public async Task<IEnumerable<BreweryResponse>> GetAllBreweries()
     {
-        return _breweryRepository.GetAllBreweries();
+        var breweries = await _breweryRepository.GetAllBreweries();
+        return breweries.Select(brewery => new BreweryResponse(brewery));
     }
 
-    public Brewery  GetBreweryById(Guid breweryId)
+    public async Task<BreweryResponse> GetBreweryById(Guid breweryId)
     {
-        return _breweryRepository.GetBreweryById(breweryId);
+        var brewery = await _breweryRepository.GetBreweryById(breweryId);
+        if(brewery == null)
+            return null;
+
+        return new BreweryResponse(brewery);
     }
 
-    public Brewery  CreateBrewery(Brewery brewery)
+    public async Task<BreweryResponse> CreateBrewery(BreweryUpsertRequest brewery)
     {
-        return _breweryRepository.CreateBrewery(brewery);
+        var breweryEntity = new Brewery
+        {
+            Name = brewery.Name,
+            City = brewery.City,
+            State = brewery.State,
+            WebsiteUrl = brewery.WebsiteUrl
+        };
+
+        var breweryToReturn = await _breweryRepository.CreateBrewery(breweryEntity);
+        if(breweryToReturn == null)
+            return null;
+
+        return new BreweryResponse(breweryToReturn);
     }
 
-    public Brewery UpdateBrewery(Guid id, Brewery brewery)
+    public async Task<BreweryResponse> UpdateBrewery(Guid id, BreweryUpsertRequest brewery)
     {
-        return _breweryRepository.UpdateBrewery(id, brewery);
+        var breweryEntity = new Brewery
+        {
+            Name = brewery.Name,
+            City = brewery.City,
+            State = brewery.State,
+            WebsiteUrl = brewery.WebsiteUrl
+        };
+
+        var breweryToReturn = await _breweryRepository.UpdateBrewery(id, breweryEntity);
+        if(brewery == null)
+            return null;
+
+        return new BreweryResponse(breweryToReturn);
     }
 
-    public IEnumerable<Brewery> DeleteBrewery(Guid id)
+    public async Task<IEnumerable<BreweryResponse>> DeleteBrewery(Guid id)
     {
-        return _breweryRepository.DeleteBrewery(id);
+        var breweries = await _breweryRepository.DeleteBrewery(id);
+        return breweries.Select(brewery => new BreweryResponse(brewery));
     }
 }

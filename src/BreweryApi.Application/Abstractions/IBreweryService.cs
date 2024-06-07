@@ -4,9 +4,9 @@ namespace BreweryApi.Application.Abstractions;
 
 public interface IBreweryService
 {
-    IEnumerable<Brewery> GetAllBreweries();
-    Brewery GetBreweryById(Guid id);
-    Brewery CreateBrewery(Brewery brewery);
-    Brewery UpdateBrewery(Guid id, Brewery brewery);
-    IEnumerable<Brewery> DeleteBrewery(Guid id);
+    Task<IEnumerable<BreweryResponse>> GetAllBreweries();
+    Task<BreweryResponse?> GetBreweryById(Guid id);
+    Task<BreweryResponse> CreateBrewery(BreweryUpsertRequest brewery);
+    Task<BreweryResponse?> UpdateBrewery(Guid id, BreweryUpsertRequest brewery);
+    Task<IEnumerable<BreweryResponse>?> DeleteBrewery(Guid id);
 }
