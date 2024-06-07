@@ -1,4 +1,4 @@
-namespace BreweryApi.Domain.Models;
+namespace BreweryApi.Domain.Entities;
 
 public class Brewery
 {

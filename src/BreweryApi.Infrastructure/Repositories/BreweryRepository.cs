@@ -1,44 +1,41 @@
 using BreweryApi.Application.Abstractions;
+using BreweryApi.Domain.Entities;
 using BreweryApi.Domain.Models;
+using BreweryApi.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BreweryApi.Infrastructure.Repositories;
 
 public class BreweryRepository : IBreweryRepository
 {
-    private List<Brewery> _breweries;
+    private readonly DataContext _context;
 
-    public BreweryRepository()
+    public BreweryRepository(DataContext context)
     {
-        _breweries = new List<Brewery>
-        {
-            new Brewery { Id = Guid.Parse("5128df48-79fc-4f0f-8b52-d06be54d0cec"), Name = "(405) Brewing Co", City = "Norman", State = "Oklahoma", WebsiteUrl = "http://www.405brewing.com" },
-            new Brewery { Id = Guid.Parse("9c5a66c8-cc13-416f-a5d9-0a769c87d318"), Name = "(512) Brewing Co", City = "Austin", State = "Texas", WebsiteUrl = "http://www.512brewing.com" },
-            new Brewery { Id = Guid.Parse("34e8c68b-6146-453f-a4b9-1f6cd99a5ada"), Name = "1 of Us Brewing Company", City = "Mount Pleasant", State = "Wisconsin", WebsiteUrl = "https://www.1ofusbrewing.com" },
-            new Brewery { Id = Guid.Parse("08f78223-24f8-4b71-b381-ea19a5bd82df"), Name = "11 Below Brewing Company", City = "Houston", State = "Texas", WebsiteUrl = "http://www.11belowbrewing.com" },
-        };
+        _context = context;
     }
 
-    public IEnumerable<Brewery> GetAllBreweries()
+    public async Task<IEnumerable<Brewery>> GetAllBreweries()
     {
-        return _breweries;
+        return await _context.Breweries.ToListAsync();    
     }
 
-    public Brewery GetBreweryById(Guid breweryId)
+    public async Task<Brewery?> GetBreweryById(Guid breweryId)
     {
-        return _breweries.FirstOrDefault(b => b.Id == breweryId);
+        return await _context.Breweries.FirstOrDefaultAsync(b => b.Id == breweryId);
     }
 
-    public Brewery CreateBrewery(Brewery brewery)
+    public async Task<Brewery> CreateBrewery(Brewery brewery)
     {
-        brewery.Id = Guid.NewGuid();
-        _breweries.Add(brewery);
+        await _context.Breweries.AddAsync(brewery);
+        await _context.SaveChangesAsync();
 
-        return GetBreweryById(brewery.Id);
+        return brewery;
     }
 
-    public Brewery UpdateBrewery(Guid id, Brewery brewery)
+    public async Task<Brewery?> UpdateBrewery(Guid id, Brewery brewery)
     {
-        var breweryToUpdate = GetBreweryById(id);
+        var breweryToUpdate = await GetBreweryById(id);
         if(breweryToUpdate == null)
             return null;
 
@@ -47,17 +44,21 @@ public class BreweryRepository : IBreweryRepository
         breweryToUpdate.State = brewery.State ?? breweryToUpdate.State;
         breweryToUpdate.WebsiteUrl = brewery.WebsiteUrl ?? breweryToUpdate.WebsiteUrl;
 
+        await _context.SaveChangesAsync();
+
         return breweryToUpdate;
     }
 
-    public IEnumerable<Brewery> DeleteBrewery(Guid id)
+    public async Task<IEnumerable<Brewery>?> DeleteBrewery(Guid id)
     {
-        var breweryToRemove = GetBreweryById(id);
+        var breweryToRemove = await GetBreweryById(id);
         if (breweryToRemove == null)
             return null;
 
-        _breweries.Remove(breweryToRemove);
+        _context.Breweries.Remove(breweryToRemove);
 
-        return _breweries;
+        await _context.SaveChangesAsync();
+
+        return await _context.Breweries.ToListAsync();
     }
 }

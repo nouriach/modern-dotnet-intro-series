@@ -1,12 +1,12 @@
-using BreweryApi.Domain.Models;
+using BreweryApi.Domain.Entities;
 
 namespace BreweryApi.Application.Abstractions;
 
 public interface IBreweryRepository
 {
-    IEnumerable<Brewery> GetAllBreweries();
-    Brewery GetBreweryById(Guid id);
-    Brewery CreateBrewery(Brewery brewery);
-    Brewery UpdateBrewery(Guid id, Brewery brewery);
-    IEnumerable<Brewery> DeleteBrewery(Guid id);
+    Task<IEnumerable<Brewery>> GetAllBreweries();
+    Task<Brewery?> GetBreweryById(Guid id);
+    Task<Brewery> CreateBrewery(Brewery brewery);
+    Task<Brewery?> UpdateBrewery(Guid id, Brewery brewery);
+    Task<IEnumerable<Brewery>?> DeleteBrewery(Guid id);
 }

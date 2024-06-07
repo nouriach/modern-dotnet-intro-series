@@ -1,5 +1,7 @@
 ﻿using BreweryApi.Application.Abstractions;
 using BreweryApi.Domain.Models;
+using BreweryApi.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Application = BreweryApi.Application.Extensions;
 using Infrastructure = BreweryApi.Infrastructure.Extensions;
 
@@ -8,6 +10,10 @@ var builder = WebApplication.CreateBuilder();
 builder.Services.AddHealthChecks();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<DataContext>(
+    options => options.UseSqlite(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 
 Application.DependencyInjection.RegisterServices(builder.Services);
 Infrastructure.DependencyInjection.RegisterServices(builder.Services);
@@ -21,18 +27,18 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHealthChecks("/health");
 
-app.MapGet("/brewery", (IBreweryService breweryService) =>
+app.MapGet("/brewery", async (IBreweryService breweryService) =>
 {
-    return breweryService.GetAllBreweries();
+    return await breweryService.GetAllBreweries();
 });
 
-app.MapGet("/brewery/{id}", (IBreweryService breweryService, string id) => {
+app.MapGet("/brewery/{id}", async(IBreweryService breweryService, string id) => {
     Guid breweryId;
     var validId = Guid.TryParse(id, out breweryId);
     
     if (validId)
     {
-        var matchingBrewery = breweryService.GetBreweryById(breweryId);
+        var matchingBrewery = await breweryService.GetBreweryById(breweryId);
         if (matchingBrewery == null)
             return Results.NotFound($"No brewery was found with the id: {id}");
 
@@ -42,27 +48,22 @@ app.MapGet("/brewery/{id}", (IBreweryService breweryService, string id) => {
     return Results.BadRequest($"The Id you passed was not a Guid: {id}");
 });
 
-app.MapPost("/brewery", (IBreweryService breweryService, Brewery brewery) =>
+app.MapPost("/brewery", async(IBreweryService breweryService, BreweryUpsertRequest brewery) =>
 {
-    var createdBrewery = breweryService.CreateBrewery(brewery);
+    var createdBrewery = await breweryService.CreateBrewery(brewery);
     return Results.Ok(createdBrewery);
 });
 
-app.MapPut("/brewery/{id}", (IBreweryService breweryService, string id, Brewery updatedBrewery) =>
+app.MapPut("/brewery/{id}", async(IBreweryService breweryService, string id, BreweryUpsertRequest updatedBrewery) =>
 {
     Guid breweryId;
     var validId = Guid.TryParse(id, out breweryId);
 
     if (validId)
     {
-        var matchingBrewery = breweryService.UpdateBrewery(breweryId, updatedBrewery);
+        var matchingBrewery = await breweryService.UpdateBrewery(breweryId, updatedBrewery);
         if (matchingBrewery == null)
             return Results.NotFound($"No brewery was found with the id: {id}");
-
-        matchingBrewery.Name = updatedBrewery.Name;
-        matchingBrewery.City = updatedBrewery.City;
-        matchingBrewery.State = updatedBrewery.State;
-        matchingBrewery.WebsiteUrl = updatedBrewery.WebsiteUrl;
 
         return Results.Ok(matchingBrewery);
     }
@@ -70,13 +71,13 @@ app.MapPut("/brewery/{id}", (IBreweryService breweryService, string id, Brewery 
     return Results.BadRequest($"The Id you passed was not a Guid: {id}");
 });
 
-app.MapDelete("/brewery/{id}", (IBreweryService breweryService, string id) => {
+app.MapDelete("/brewery/{id}", async(IBreweryService breweryService, string id) => {
     Guid breweryId;
     var validId = Guid.TryParse(id, out breweryId);
 
     if (validId)
     {
-        var remainingBreweries = breweryService.DeleteBrewery(breweryId);
+        var remainingBreweries = await breweryService.DeleteBrewery(breweryId);
         if (remainingBreweries == null)
             return Results.NotFound("Sorry, this brewery does not exist.");
 
