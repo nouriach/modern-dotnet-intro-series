@@ -1,6 +1,6 @@
-namespace BreweryApi.Domain.Models;
+namespace BreweryApi.Application.Features.Breweries.Commands.UpdateBrewery;
 
-public class BreweryUpsertRequest
+public class UpdateBrewery
 {
     public string Name { get; set; }
     public string City { get; set; }
