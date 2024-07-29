@@ -1,12 +1,7 @@
-﻿using BreweryApi.Application.Abstractions;
-using BreweryApi.Application.Features.Breweries.Commands.CreateBrewery;
-using BreweryApi.Application.Features.Breweries.Commands.DeleteBrewery;
-using BreweryApi.Application.Features.Breweries.Commands.UpdateBrewery;
-using BreweryApi.Application.Features.Breweries.Queries.GetAllBreweries;
-using BreweryApi.Application.Features.Breweries.Queries.GetBreweryById;
-using BreweryApi.Domain.Models;
+﻿using Asp.Versioning;
+using Asp.Versioning.Builder;
+using BreweryApi.Endpoints.Extensions;
 using BreweryApi.Infrastructure.Data;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Application = BreweryApi.Application.Extensions;
 using Infrastructure = BreweryApi.Infrastructure.Extensions;
@@ -21,6 +16,16 @@ builder.Services.AddDbContext<DataContext>(
     options => options.UseSqlite(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1);
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+}).AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'V";
+    options.SubstituteApiVersionInUrl = true;
+});
+
 Application.DependencyInjection.RegisterServices(builder.Services);
 Infrastructure.DependencyInjection.RegisterServices(builder.Services);
 
@@ -33,67 +38,14 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHealthChecks("/health");
 
-app.MapGet("/brewery", async (IMediator mediator) =>
-{
-    return await mediator.Send(new GetAllBreweries());
-});
+ApiVersionSet apiVersionSet = app.NewApiVersionSet()
+    .HasApiVersion(new ApiVersion(1))
+    .ReportApiVersions()
+    .Build();
 
-app.MapGet("/brewery/{id}", async(IMediator mediator, string id) => 
-{
-    Guid breweryId;
-    var validId = Guid.TryParse(id, out breweryId);
-    
-    if (validId)
-    {
-        var matchingBrewery = await mediator.Send(new GetBreweryById{ Id = breweryId });
-        if (matchingBrewery == null)
-            return Results.NotFound($"No brewery was found with the id: {id}");
+RouteGroupBuilder versionedGroup = app.MapGroup("api/v{apiVersion:apiVersion}")
+    .WithApiVersionSet(apiVersionSet);
 
-        return Results.Ok(matchingBrewery);
-    }
-
-    return Results.BadRequest($"The Id you passed was not a Guid: {id}");
-});
-
-app.MapPost("/brewery", async(IMediator mediator, CreateBrewery command) =>
-{
-    var createdBrewery = await mediator.Send(command);
-    return Results.Ok(createdBrewery);
-});
-
-app.MapPut("/brewery/{id}", async(IMediator mediator, string id, UpdateBrewery command) =>
-{
-    Guid breweryId;
-    var validId = Guid.TryParse(id, out breweryId);
-
-    if (validId)
-    {
-        var matchingBrewery = await mediator.Send(new UpdateBreweryRequest()
-        {
-            Id = breweryId,
-            Command = command
-        });
-        if (matchingBrewery == null)
-            return Results.NotFound($"No brewery was found with the id: {id}");
-
-        return Results.Ok(matchingBrewery);
-    }
-
-    return Results.BadRequest($"The Id you passed was not a Guid: {id}");
-});
-
-app.MapDelete("/brewery/{id}", async(IMediator mediator, string id) => 
-{
-    Guid breweryId;
-    var validId = Guid.TryParse(id, out breweryId);
-
-    if (validId)
-    {
-        var remainingBreweries = await mediator.Send(new DeleteBrewery { Id = breweryId });
-        return Results.Ok(remainingBreweries);
-    }
-
-    return Results.BadRequest("The Id you passed was not a Guid.");
-});
+versionedGroup.RegisterEndpointDefinitions();
 
 app.Run();
