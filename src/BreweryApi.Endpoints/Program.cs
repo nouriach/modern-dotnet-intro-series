@@ -1,7 +1,7 @@
 ﻿using BreweryApi.Application.Abstractions;
 using BreweryApi.Domain.Models;
 using Application = BreweryApi.Application.Extensions;
-using Persistence = BreweryApi.Persistence.Extensions;
+using Infrastructure = BreweryApi.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 Application.DependencyInjection.RegisterServices(builder.Services);
-Persistence.DependencyInjection.RegisterServices(builder.Services);
+Infrastructure.DependencyInjection.RegisterServices(builder.Services);
 
 var app = builder.Build();
 
@@ -58,6 +58,11 @@ app.MapPut("/brewery/{id}", (IBreweryService breweryService, string id, Brewery 
         var matchingBrewery = breweryService.UpdateBrewery(breweryId, updatedBrewery);
         if (matchingBrewery == null)
             return Results.NotFound($"No brewery was found with the id: {id}");
+
+        matchingBrewery.Name = updatedBrewery.Name;
+        matchingBrewery.City = updatedBrewery.City;
+        matchingBrewery.State = updatedBrewery.State;
+        matchingBrewery.WebsiteUrl = updatedBrewery.WebsiteUrl;
 
         return Results.Ok(matchingBrewery);
     }
