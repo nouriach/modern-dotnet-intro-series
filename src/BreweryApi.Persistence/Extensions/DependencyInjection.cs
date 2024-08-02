@@ -1,8 +1,8 @@
 using BreweryApi.Application.Abstractions;
-using BreweryApi.Infrastructure.Repositories;
+using BreweryApi.Persistence.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BreweryApi.Infrastructure.Extensions;
+namespace BreweryApi.Persistence.Extensions;
 
 public static class DependencyInjection
 {

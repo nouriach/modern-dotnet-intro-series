@@ -1,7 +1,7 @@
 using BreweryApi.Application.Abstractions;
 using BreweryApi.Domain.Models;
 
-namespace BreweryApi.Infrastructure.Repositories;
+namespace BreweryApi.Persistence.Repositories;
 
 public class BreweryRepository : IBreweryRepository
 {
