@@ -59,10 +59,10 @@ app.MapPut("/brewery/{id}", (IBreweryService breweryService, string id, Brewery 
         if (matchingBrewery == null)
             return Results.NotFound($"No brewery was found with the id: {id}");
 
-        matchingBrewery.Name = updatedBrewery.Name;
-        matchingBrewery.City = updatedBrewery.City;
-        matchingBrewery.State = updatedBrewery.State;
-        matchingBrewery.WebsiteUrl = updatedBrewery.WebsiteUrl;
+        matchingBrewery.Name = updatedBrewery.Name ?? matchingBrewery.Name;
+        matchingBrewery.City = updatedBrewery.City ?? matchingBrewery.City;
+        matchingBrewery.State = updatedBrewery.State ?? matchingBrewery.State;
+        matchingBrewery.WebsiteUrl = updatedBrewery.WebsiteUrl ?? matchingBrewery.WebsiteUrl;
 
         return Results.Ok(matchingBrewery);
     }
