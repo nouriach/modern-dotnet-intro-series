@@ -1,9 +1,9 @@
 ﻿using BreweryApi.Application.Abstractions;
 using BreweryApi.Domain.Models;
-using BreweryApi.Infrastructure.Data;
+using BreweryApi.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Application = BreweryApi.Application.Extensions;
-using Infrastructure = BreweryApi.Infrastructure.Extensions;
+using Persistance = BreweryApi.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -16,7 +16,7 @@ builder.Services.AddDbContext<DataContext>(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
 Application.DependencyInjection.RegisterServices(builder.Services);
-Infrastructure.DependencyInjection.RegisterServices(builder.Services);
+Persistance.DependencyInjection.RegisterServices(builder.Services);
 
 var app = builder.Build();
 
