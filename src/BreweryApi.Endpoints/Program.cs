@@ -1,7 +1,7 @@
 ﻿using BreweryApi.Application.Abstractions;
 using BreweryApi.Domain.Models;
 using Application = BreweryApi.Application.Extensions;
-using Infrastructure = BreweryApi.Infrastructure.Extensions;
+using Infrastructure = BreweryApi.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder();
 

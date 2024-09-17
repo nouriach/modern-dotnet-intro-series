@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BreweryApi.Application\BreweryApi.Application.csproj" />
-    <ProjectReference Include="..\BreweryApi.Infrastructure\BreweryApi.Infrastructure.csproj" />
+    <ProjectReference Include="..\BreweryApi.Persistence\BreweryApi.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
