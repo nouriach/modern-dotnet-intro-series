@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreweryApi.Domain", "src\Br
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreweryApi.Application", "src\BreweryApi.Application\BreweryApi.Application.csproj", "{E8785008-21D3-4296-A752-2FDE1DCF4A13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreweryApi.Infrastructure", "src\BreweryApi.Infrastructure\BreweryApi.Infrastructure.csproj", "{69157CAB-892B-4318-BC02-F67D57A7B3F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreweryApi.Persistence", "src\BreweryApi.Persistence\BreweryApi.Persistence.csproj", "{69157CAB-892B-4318-BC02-F67D57A7B3F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

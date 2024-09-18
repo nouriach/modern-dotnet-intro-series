@@ -1,10 +1,10 @@
 ﻿using Asp.Versioning;
 using Asp.Versioning.Builder;
 using BreweryApi.Endpoints.Extensions;
-using BreweryApi.Infrastructure.Data;
+using BreweryApi.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Application = BreweryApi.Application.Extensions;
-using Infrastructure = BreweryApi.Infrastructure.Extensions;
+using Infrastructure = BreweryApi.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder();
 
