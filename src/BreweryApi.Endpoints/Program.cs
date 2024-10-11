@@ -1,7 +1,7 @@
 ﻿using BreweryApi.Application.Abstractions;
 using BreweryApi.Domain.Models;
 using Application = BreweryApi.Application.Extensions;
-using Infrastructure = BreweryApi.Persistence.Extensions;
+using Persistence = BreweryApi.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 Application.DependencyInjection.RegisterServices(builder.Services);
-Infrastructure.DependencyInjection.RegisterServices(builder.Services);
+Persistence.DependencyInjection.RegisterServices(builder.Services);
 
 var app = builder.Build();
 
