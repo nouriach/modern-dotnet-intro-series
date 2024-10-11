@@ -4,7 +4,7 @@ using BreweryApi.Endpoints.Extensions;
 using BreweryApi.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Application = BreweryApi.Application.Extensions;
-using Infrastructure = BreweryApi.Persistence.Extensions;
+using Persistence = BreweryApi.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -27,7 +27,7 @@ builder.Services.AddApiVersioning(options =>
 });
 
 Application.DependencyInjection.RegisterServices(builder.Services);
-Infrastructure.DependencyInjection.RegisterServices(builder.Services);
+Persistence.DependencyInjection.RegisterServices(builder.Services);
 
 var app = builder.Build();
 
