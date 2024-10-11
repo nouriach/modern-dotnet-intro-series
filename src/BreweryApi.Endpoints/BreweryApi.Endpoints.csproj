@@ -15,13 +15,14 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BreweryApi.Application\BreweryApi.Application.csproj" />
     <ProjectReference Include="..\BreweryApi.Persistence\BreweryApi.Persistence.csproj" />
+    <ProjectReference Include="..\BreweryApi.Infrastructure\BreweryApi.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
