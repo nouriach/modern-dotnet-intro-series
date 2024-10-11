@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreweryApi.Application", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreweryApi.Persistence", "src\BreweryApi.Persistence\BreweryApi.Persistence.csproj", "{69157CAB-892B-4318-BC02-F67D57A7B3F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreweryApi.Infrastructure", "src\BreweryApi.Infrastructure\BreweryApi.Infrastructure.csproj", "{2D317628-29E0-4701-9F71-710BC3576F79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,11 +40,16 @@ Global
 		{69157CAB-892B-4318-BC02-F67D57A7B3F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69157CAB-892B-4318-BC02-F67D57A7B3F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69157CAB-892B-4318-BC02-F67D57A7B3F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D317628-29E0-4701-9F71-710BC3576F79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D317628-29E0-4701-9F71-710BC3576F79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D317628-29E0-4701-9F71-710BC3576F79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D317628-29E0-4701-9F71-710BC3576F79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{12510027-F7BF-4A67-B671-62F5BFC46338} = {347A2A52-538F-442D-984F-FA6180CEAAEA}
 		{D65E1354-869A-41F1-BEC1-B819AAE008F1} = {347A2A52-538F-442D-984F-FA6180CEAAEA}
 		{E8785008-21D3-4296-A752-2FDE1DCF4A13} = {347A2A52-538F-442D-984F-FA6180CEAAEA}
 		{69157CAB-892B-4318-BC02-F67D57A7B3F9} = {347A2A52-538F-442D-984F-FA6180CEAAEA}
+		{2D317628-29E0-4701-9F71-710BC3576F79} = {347A2A52-538F-442D-984F-FA6180CEAAEA}
 	EndGlobalSection
 EndGlobal
