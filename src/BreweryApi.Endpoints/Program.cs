@@ -1,15 +1,13 @@
-﻿using BreweryApi.Application.Abstractions;
-using BreweryApi.Application.Features.Breweries.Commands.CreateBrewery;
+﻿using BreweryApi.Application.Features.Breweries.Commands.CreateBrewery;
 using BreweryApi.Application.Features.Breweries.Commands.DeleteBrewery;
 using BreweryApi.Application.Features.Breweries.Commands.UpdateBrewery;
 using BreweryApi.Application.Features.Breweries.Queries.GetAllBreweries;
 using BreweryApi.Application.Features.Breweries.Queries.GetBreweryById;
-using BreweryApi.Domain.Models;
-using BreweryApi.Infrastructure.Data;
+using BreweryApi.Persistence.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Application = BreweryApi.Application.Extensions;
-using Infrastructure = BreweryApi.Infrastructure.Extensions;
+using Persistence = BreweryApi.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -22,7 +20,7 @@ builder.Services.AddDbContext<DataContext>(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
 Application.DependencyInjection.RegisterServices(builder.Services);
-Infrastructure.DependencyInjection.RegisterServices(builder.Services);
+Persistence.DependencyInjection.RegisterServices(builder.Services);
 
 var app = builder.Build();
 

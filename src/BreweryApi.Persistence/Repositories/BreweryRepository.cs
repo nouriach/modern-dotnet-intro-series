@@ -1,10 +1,10 @@
 using BreweryApi.Application.Abstractions;
 using BreweryApi.Domain.Entities;
-using BreweryApi.Domain.Models;
 using BreweryApi.Infrastructure.Data;
+using BreweryApi.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace BreweryApi.Infrastructure.Repositories;
+namespace BreweryApi.Persistence.Repositories;
 
 public class BreweryRepository : IBreweryRepository
 {

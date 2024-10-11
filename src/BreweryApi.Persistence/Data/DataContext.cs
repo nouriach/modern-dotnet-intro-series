@@ -1,7 +1,7 @@
 using BreweryApi.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BreweryApi.Infrastructure.Data;
+namespace BreweryApi.Persistence.Data;
 
 public class DataContext : DbContext
 {
